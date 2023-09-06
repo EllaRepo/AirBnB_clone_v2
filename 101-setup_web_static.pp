@@ -9,16 +9,16 @@ exec {'install Nginx':
 exec {'create directories':
   provider => shell,
   command  => 'sudo mkdir -p /data/web_static/releases/test/ ; sudo mkdir -p /data/web_static/shared/',
-  before   => Exec['create html file'],
+  before   => Exec['html file'],
 }
 
-exec {'create html file':
+exec {'html file':
   provider => shell,
   command  => 'echo "Hello Web Server!" | sudo tee /data/web_static/releases/test/index.html',
-  before   => Exec['create symbolic link'],
+  before   => Exec['symbolic link'],
 }
 
-exec {'create symbolic link':
+exec {'symbolic link':
   provider => shell,
   command  => 'sudo ln -sf /data/web_static/releases/test/ /data/web_static/current',
   before   => Exec['add location'],
@@ -33,10 +33,10 @@ exec {'add location':
 exec {'restart Nginx':
   provider => shell,
   command  => 'sudo service nginx restart',
-  before   => File['set owner']
+  before   => File['owner']
 }
 
-file {'set owner':
+file {'owner':
   ensure  => directory,
   owner   => 'ubuntu',
   group   => 'ubuntu',
