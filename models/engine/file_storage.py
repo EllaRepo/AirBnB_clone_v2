@@ -70,4 +70,3 @@ class FileStorage:
         """deserialize the JSON file to objects
         """
         self.reload()
-        
